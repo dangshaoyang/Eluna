@@ -398,16 +398,39 @@ bool Eluna::OnQuestAccept(Player* pPlayer, Item* pItem, Quest const* pQuest)
 
 bool Eluna::OnUse(Player* pPlayer, Item* pItem, SpellCastTargets const& targets)
 {
-    return OnItemGossip(pPlayer, pItem, targets) || OnItemUse(pPlayer, pItem, targets);
-    // pPlayer->SendEquipError((InventoryResult)83, pItem, NULL);
-    // return true;
+    ObjectGuid guid = pItem->GET_GUID();
+    bool castSpell = true;
+
+    if (!OnItemGossip(pPlayer, pItem, targets))
+        castSpell = false;
+
+    pItem = pPlayer->GetItemByGuid(guid);
+    if (pItem && OnItemUse(pPlayer, pItem, targets))
+        pItem = pPlayer->GetItemByGuid(guid);
+    else
+        castSpell = false;
+
+    if (pItem && castSpell)
+        return true;
+
+    // Send equip error that shows no message
+    // This is a hack fix to stop spell casting visual bug when a spell is not cast on use
+    WorldPacket data(SMSG_INVENTORY_CHANGE_FAILURE, 18);
+    data << uint8(59); // EQUIP_ERR_NONE / EQUIP_ERR_CANT_BE_DISENCHANTED
+    data << ObjectGuid(guid);
+    data << ObjectGuid(uint64(0));
+    data << uint8(0);
+    pPlayer->GetSession()->SendPacket(&data);
+    return false;
 }
+
 bool Eluna::OnItemUse(Player* pPlayer, Item* pItem, SpellCastTargets const& targets)
 {
-    ENTRY_BEGIN(ItemEventBindings, pItem->GetEntry(), ITEM_EVENT_ON_USE, return false);
+    bool result = true;
+    ENTRY_BEGIN(ItemEventBindings, pItem->GetEntry(), ITEM_EVENT_ON_USE, return result);
     Push(L, pPlayer);
     Push(L, pItem);
-#ifdef MANGOS
+#ifndef TRINITY
     if (GameObject* target = targets.getGOTarget())
         Push(L, target);
     else if (Item* target = targets.getItemTarget())
@@ -432,19 +455,33 @@ bool Eluna::OnItemUse(Player* pPlayer, Item* pItem, SpellCastTargets const& targ
     else
         Push(L);
 #endif
-    ENTRY_EXECUTE(0);
+    ENTRY_EXECUTE(1);
+    FOR_RETS(i)
+    {
+        if (lua_isnoneornil(L, i))
+            continue;
+        result = CHECKVAL<bool>(L, i, result);
+    }
     ENDCALL();
-    return true;
+    return result;
 }
-bool Eluna::OnItemGossip(Player* pPlayer, Item* pItem, SpellCastTargets const& targets)
+
+bool Eluna::OnItemGossip(Player* pPlayer, Item* pItem, SpellCastTargets const& /*targets*/)
 {
-    ENTRY_BEGIN(ItemGossipBindings, pItem->GetEntry(), GOSSIP_EVENT_ON_HELLO, return false);
+    bool result = true;
+    ENTRY_BEGIN(ItemGossipBindings, pItem->GetEntry(), GOSSIP_EVENT_ON_HELLO, return result);
     pPlayer->PlayerTalkClass->ClearMenus();
     Push(L, pPlayer);
     Push(L, pItem);
-    ENTRY_EXECUTE(0);
+    ENTRY_EXECUTE(1);
+    FOR_RETS(i)
+    {
+        if (lua_isnoneornil(L, i))
+            continue;
+        result = CHECKVAL<bool>(L, i, result);
+    }
     ENDCALL();
-    return true;
+    return result;
 }
 
 bool Eluna::OnExpire(Player* pPlayer, ItemTemplate const* pProto)
@@ -1339,7 +1376,7 @@ void Eluna::OnSummoned(Creature* pCreature, Unit* pSummoner)
 
 struct ElunaCreatureAI : ScriptedAI
 {
-#ifdef MANGOS
+#ifndef TRINITY
 #define me  m_creature
 #endif
 
@@ -1350,13 +1387,13 @@ struct ElunaCreatureAI : ScriptedAI
     ~ElunaCreatureAI() {}
 
     //Called at World update tick
-#ifdef MANGOS
+#ifndef TRINITY
     void UpdateAI(const uint32 diff) override
 #else
     void UpdateAI(uint32 diff) override
 #endif
     {
-#ifdef MANGOS
+#ifndef TRINITY
         if (IsCombatMovement())
             ScriptedAI::UpdateAI(diff);
 #else
@@ -1540,7 +1577,7 @@ struct ElunaCreatureAI : ScriptedAI
         ENDCALL();
     }
 
-#ifdef MANGOS
+#ifndef TRINITY
     // Enables use of MoveInLineOfSight
     bool IsVisible(Unit* who) const override
     {
@@ -1591,7 +1628,7 @@ struct ElunaCreatureAI : ScriptedAI
         ENDCALL();
     }
 
-#ifndef MANGOS
+#ifdef TRINITY
 
     // Called when the creature is summoned successfully by other creature
     void IsSummonedBy(Unit* summoner) override
@@ -1634,7 +1671,7 @@ struct ElunaCreatureAI : ScriptedAI
     }
 #endif
 
-#ifdef MANGOS
+#ifndef TRINITY
 #undef me
 #endif
 };

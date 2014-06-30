@@ -88,7 +88,7 @@ namespace LuaGlobalFunctions
         {
             if (Player* player = it->second->GetPlayer())
             {
-#ifdef MANGOS
+#ifndef TRINITY
                 if (player->GetSession() && ((team >= TEAM_NEUTRAL || player->GetTeamId() == team) && (!onlyGM || player->isGameMaster())))
 #else
                 if (player->GetSession() && ((team >= TEAM_NEUTRAL || player->GetTeamId() == team) && (!onlyGM || player->IsGameMaster())))
@@ -123,7 +123,7 @@ namespace LuaGlobalFunctions
         Map::PlayerList const& players = map->GetPlayers();
         for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
         {
-#ifdef MANGOS
+#ifndef TRINITY
             Player* player = itr->getSource();
 #else
             Player* player = itr->getSource();
@@ -285,7 +285,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 2);
         luaL_checktype(L, 2, LUA_TFUNCTION);
         lua_pushvalue(L, 2);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_PACKET, entry, ev, functionRef);
         return 0;
@@ -296,7 +296,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 1);
         luaL_checktype(L, 2, LUA_TFUNCTION);
         lua_pushvalue(L, 2);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_SERVER, 0, ev, functionRef);
         return 0;
@@ -307,7 +307,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 1);
         luaL_checktype(L, 2, LUA_TFUNCTION);
         lua_pushvalue(L, 2);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_PLAYER, 0, ev, functionRef);
         return 0;
@@ -318,7 +318,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 1);
         luaL_checktype(L, 2, LUA_TFUNCTION);
         lua_pushvalue(L, 2);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_GUILD, 0, ev, functionRef);
         return 0;
@@ -329,7 +329,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 1);
         luaL_checktype(L, 2, LUA_TFUNCTION);
         lua_pushvalue(L, 2);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_GROUP, 0, ev, functionRef);
         return 0;
@@ -341,7 +341,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 2);
         luaL_checktype(L, 3, LUA_TFUNCTION);
         lua_pushvalue(L, 3);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_CREATURE_GOSSIP, entry, ev, functionRef);
         return 0;
@@ -353,7 +353,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 2);
         luaL_checktype(L, 3, LUA_TFUNCTION);
         lua_pushvalue(L, 3);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_GAMEOBJECT_GOSSIP, entry, ev, functionRef);
         return 0;
@@ -365,7 +365,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 2);
         luaL_checktype(L, 3, LUA_TFUNCTION);
         lua_pushvalue(L, 3);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_ITEM, entry, ev, functionRef);
         return 0;
@@ -377,7 +377,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 2);
         luaL_checktype(L, 3, LUA_TFUNCTION);
         lua_pushvalue(L, 3);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_ITEM_GOSSIP, entry, ev, functionRef);
         return 0;
@@ -389,7 +389,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 2);
         luaL_checktype(L, 3, LUA_TFUNCTION);
         lua_pushvalue(L, 3);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_PLAYER_GOSSIP, menu_id, ev, functionRef);
         return 0;
@@ -401,7 +401,7 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 2);
         luaL_checktype(L, 3, LUA_TFUNCTION);
         lua_pushvalue(L, 3);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_CREATURE, entry, ev, functionRef);
         return 0;
@@ -413,13 +413,13 @@ namespace LuaGlobalFunctions
         uint32 ev = Eluna::CHECKVAL<uint32>(L, 2);
         luaL_checktype(L, 3, LUA_TFUNCTION);
         lua_pushvalue(L, 3);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         if (functionRef > 0)
             sEluna->Register(HookMgr::REGTYPE_GAMEOBJECT, entry, ev, functionRef);
         return 0;
     }
 
-    int ReloadEluna(lua_State* L)
+    int ReloadEluna(lua_State* /*L*/)
     {
         Eluna::reload = true;
         return 0;
@@ -437,7 +437,7 @@ namespace LuaGlobalFunctions
         const char* query = Eluna::CHECKVAL<const char*>(L, 1);
 
         QueryResult* result = NULL;
-#ifdef MANGOS
+#ifndef TRINITY
         result = WorldDatabase.Query(query);
 #else
         QueryResult res = WorldDatabase.Query(query);
@@ -463,7 +463,7 @@ namespace LuaGlobalFunctions
         const char* query = Eluna::CHECKVAL<const char*>(L, 1);
 
         QueryResult* result = NULL;
-#ifdef MANGOS
+#ifndef TRINITY
         result = CharacterDatabase.Query(query);
 #else
         QueryResult res = CharacterDatabase.Query(query);
@@ -489,7 +489,7 @@ namespace LuaGlobalFunctions
         const char* query = Eluna::CHECKVAL<const char*>(L, 1);
 
         QueryResult* result = NULL;
-#ifdef MANGOS
+#ifndef TRINITY
         result = LoginDatabase.Query(query);
 #else
         QueryResult res = LoginDatabase.Query(query);
@@ -517,7 +517,7 @@ namespace LuaGlobalFunctions
         uint32 repeats = Eluna::CHECKVAL<uint32>(L, 3);
 
         lua_pushvalue(L, 1);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         functionRef = sEluna->m_EventMgr->AddEvent(&sEluna->m_EventMgr->GlobalEvents, functionRef, delay, repeats);
         if (functionRef)
             Eluna::Push(L, functionRef);
@@ -570,7 +570,7 @@ namespace LuaGlobalFunctions
         }
 #endif
 
-#ifdef MANGOS
+#ifndef TRINITY
         Map* map = eMapMgr->FindMap(mapID, instanceID);
         if (!map)
         {
@@ -883,7 +883,7 @@ namespace LuaGlobalFunctions
         uint32 incrtime = Eluna::CHECKVAL<uint32>(L, 4);
         uint32 extendedcost = Eluna::CHECKVAL<uint32>(L, 5);
 
-#ifdef MANGOS
+#ifndef TRINITY
         if (!eObjectMgr->IsVendorItemValid(false, "npc_vendor", entry, item, maxcount, incrtime, extendedcost, 0))
             return 0;
 #ifndef CLASSIC
@@ -958,13 +958,13 @@ namespace LuaGlobalFunctions
         {
         case BAN_ACCOUNT:
 #ifdef CATA
-			if (!Utf8ToUpperOnlyLatin(nameOrIP))
-				return 0;
+            if (!Utf8ToUpperOnlyLatin(nameOrIP))
+                return 0;
 #else
-			if (!AccountMgr::normalizeString(nameOrIP))
-				return 0;
+            if (!AccountMgr::normalizeString(nameOrIP))
+                return 0;
 #endif
-			break;
+            break;
         case BAN_CHARACTER:
             if (!normalizePlayerName(nameOrIP))
                 return 0;
@@ -993,7 +993,7 @@ namespace LuaGlobalFunctions
         return 0;
     }
 
-    int SaveAllPlayers(lua_State* L)
+    int SaveAllPlayers(lua_State* /*L*/)
     {
         eObjectAccessor->SaveAllPlayers();
         return 0;
@@ -1013,7 +1013,7 @@ namespace LuaGlobalFunctions
         MailSender sender(MAIL_NORMAL, senderGUIDLow, (MailStationery)stationary);
         MailDraft draft(subject, text);
 
-#ifndef MANGOS
+#ifdef TRINITY
         SQLTransaction trans = CharacterDatabase.BeginTransaction();
 #endif
         uint8 addedItems = 0;
@@ -1022,7 +1022,7 @@ namespace LuaGlobalFunctions
             uint32 entry = luaL_checkunsigned(L, ++i);
             uint32 amount = luaL_checkunsigned(L, ++i);
 
-#ifdef MANGOS
+#ifndef TRINITY
             ItemTemplate const* item_proto = ObjectMgr::GetItemPrototype(entry);
 #else
             ItemTemplate const* item_proto = eObjectMgr->GetItemTemplate(entry);
@@ -1039,7 +1039,7 @@ namespace LuaGlobalFunctions
             }
             if (Item* item = Item::CreateItem(entry, amount))
             {
-#ifdef MANGOS
+#ifndef TRINITY
                 item->SaveToDB();
 #else
                 item->SaveToDB(trans);
@@ -1050,7 +1050,7 @@ namespace LuaGlobalFunctions
             }
         }
 
-#ifdef MANGOS
+#ifndef TRINITY
         draft.SendMailTo(MailReceiver(MAKE_NEW_GUID(receiverGUIDLow, 0, HIGHGUID_PLAYER)), sender);
 #else
         draft.SendMailTo(trans, MailReceiver(receiverGUIDLow), sender, MAIL_CHECK_MASK_NONE, delay);
@@ -1234,7 +1234,7 @@ namespace LuaGlobalFunctions
         return 0;
     }
 
-    int RemoveOldCorpses(lua_State* L)
+    int RemoveOldCorpses(lua_State* /*L*/)
     {
         eObjectAccessor->RemoveOldCorpses();
         return 0;
@@ -1243,7 +1243,7 @@ namespace LuaGlobalFunctions
     int FindWeather(lua_State* L)
     {
         uint32 zoneId = Eluna::CHECKVAL<uint32>(L, 1);
-#ifdef MANGOS
+#ifndef TRINITY
         Weather* weather = eWorld->FindWeather(zoneId);
 #else
         Weather* weather = WeatherMgr::FindWeather(zoneId);
@@ -1255,7 +1255,7 @@ namespace LuaGlobalFunctions
     int AddWeather(lua_State* L)
     {
         uint32 zoneId = Eluna::CHECKVAL<uint32>(L, 1);
-#ifdef MANGOS
+#ifndef TRINITY
         Weather* weather = eWorld->AddWeather(zoneId);
 #else
         Weather* weather = WeatherMgr::AddWeather(zoneId);
@@ -1267,7 +1267,7 @@ namespace LuaGlobalFunctions
     int RemoveWeather(lua_State* L)
     {
         uint32 zoneId = Eluna::CHECKVAL<uint32>(L, 1);
-#ifdef MANGOS
+#ifndef TRINITY
         eWorld->RemoveWeather(zoneId);
 #else
         WeatherMgr::RemoveWeather(zoneId);
@@ -1278,7 +1278,7 @@ namespace LuaGlobalFunctions
     int SendFineWeatherToPlayer(lua_State* L)
     {
         Player* player = Eluna::CHECKOBJ<Player>(L, 1);
-#ifdef MANGOS
+#ifndef TRINITY
         Weather::SendFineWeatherUpdateToPlayer(player);
 #else
         WeatherMgr::SendFineWeatherUpdateToPlayer(player);

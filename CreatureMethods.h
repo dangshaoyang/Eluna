@@ -18,7 +18,7 @@ namespace LuaCreature
 
     int IsRegeneratingHealth(lua_State* L, Creature* creature)
     {
-#ifdef MANGOS
+#ifndef TRINITY
         Eluna::Push(L, creature->IsRegeneratingHealth());
 #else
         Eluna::Push(L, creature->isRegeneratingHealth());
@@ -30,7 +30,7 @@ namespace LuaCreature
     {
         uint32 quest_id = Eluna::CHECKVAL<uint32>(L, 2);
 
-#ifdef MANGOS
+#ifndef TRINITY
         Eluna::Push(L, creature->HasInvolvedQuest(quest_id));
 #else
         Eluna::Push(L, creature->hasInvolvedQuest(quest_id));
@@ -42,7 +42,11 @@ namespace LuaCreature
     {
         Unit* target = Eluna::CHECKOBJ<Unit>(L, 2);
 
+#ifdef MANGOS
+        Eluna::Push(L, creature->IsTargetableForAttack(target));
+#else
         Eluna::Push(L, creature->isTargetableForAttack(target));
+#endif
         return 1;
     }
 
@@ -72,7 +76,7 @@ namespace LuaCreature
 
     int HasLootRecipient(lua_State* L, Creature* creature)
     {
-#ifdef MANGOS
+#ifndef TRINITY
         Eluna::Push(L, creature->HasLootRecipient());
 #else
         Eluna::Push(L, creature->hasLootRecipient());
@@ -82,7 +86,7 @@ namespace LuaCreature
 
     int IsCombatAllowed(lua_State* L, Creature* creature)
     {
-#ifdef MANGOS
+#ifndef TRINITY
         if (CreatureAI* ai = creature->AI())
             Eluna::Push(L, ai->IsCombatMovement());
         else
@@ -113,7 +117,7 @@ namespace LuaCreature
 
     int IsElite(lua_State* L, Creature* creature)
     {
-#ifdef MANGOS
+#ifndef TRINITY
         Eluna::Push(L, creature->IsElite());
 #else
         Eluna::Push(L, creature->isElite());
@@ -141,7 +145,7 @@ namespace LuaCreature
 
     int IsWorldBoss(lua_State* L, Creature* creature)
     {
-#ifdef MANGOS
+#ifndef TRINITY
         Eluna::Push(L, creature->IsWorldBoss());
 #else
         Eluna::Push(L, creature->isWorldBoss());
@@ -169,7 +173,7 @@ namespace LuaCreature
     {
         uint32 questId = Eluna::CHECKVAL<uint32>(L, 2);
 
-#ifdef MANGOS
+#ifndef TRINITY
         Eluna::Push(L, creature->HasQuest(questId));
 #else
         Eluna::Push(L, creature->hasQuest(questId));
@@ -243,7 +247,7 @@ namespace LuaCreature
     {
         Unit* target = Eluna::CHECKOBJ<Unit>(L, 2);
 
-#ifdef MANGOS
+#ifndef TRINITY
         float AttackDist = creature->GetAttackDistance(target);
         float ThreatRadius = sWorld.getConfig(CONFIG_FLOAT_THREAT_RADIUS);
         Eluna::Push(L, ThreatRadius > AttackDist ? ThreatRadius : AttackDist);
@@ -264,7 +268,7 @@ namespace LuaCreature
 
     int GetLootRecipientGroup(lua_State* L, Creature* creature)
     {
-#ifdef MANGOS
+#ifndef TRINITY
         Eluna::Push(L, creature->GetGroupLootRecipient());
 #else
         Eluna::Push(L, creature->GetLootRecipientGroup());
@@ -313,7 +317,7 @@ namespace LuaCreature
     int GetHomePosition(lua_State* L, Creature* creature)
     {
         float x, y, z, o;
-#ifdef MANGOS
+#ifndef TRINITY
         creature->GetRespawnCoord(x, y, z, &o);
 #else
         creature->GetHomePosition(x, y, z, o);
@@ -334,10 +338,14 @@ namespace LuaCreature
         float dist = Eluna::CHECKVAL<float>(L, 5, 0.0f);
         int32 aura = Eluna::CHECKVAL<int32>(L, 6, 0);
 
-		std::list<HostileReference*> &threatList = creature->getThreatManager().getThreatList();
-		if (threatList.empty())
+#ifdef MANGOS
+        std::list<HostileReference*> &threatlist = creature->GetThreatManager().getThreatList();
+#else
+        std::list<HostileReference*> &threatlist = creature->getThreatManager().getThreatList();
+#endif
+        if (threatlist.empty())
             return 1;
-		if (position >= threatList.size())
+        if (position >= threatlist.size())
             return 1;
 
         std::list<Unit*> targetList;
@@ -408,11 +416,15 @@ namespace LuaCreature
         lua_newtable(L);
         int tbl = lua_gettop(L);
         uint32 i = 0;
-
-        ThreatList const& threatList = creature->getThreatManager().getThreatList();
-        if (threatList.empty())
+        
+#ifdef MANGOS
+        std::list<HostileReference*> &threatlist = creature->GetThreatManager().getThreatList();
+#else
+        std::list<HostileReference*> &threatlist = creature->getThreatManager().getThreatList();
+#endif
+        if (threatlist.empty())
             return 1;
-		for (std::list<HostileReference*>::iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
+		for (std::list<HostileReference*>::iterator itr = threatlist.begin(); itr != threatList.end(); ++itr)
         {
             Unit* target = (*itr)->getTarget();
             if (!target)
@@ -429,7 +441,11 @@ namespace LuaCreature
 
     int GetAITargetsCount(lua_State* L, Creature* creature)
     {
+#ifdef MANGOS
+        Eluna::Push(L, creature->GetThreatManager().getThreatList().size());
+#else
         Eluna::Push(L, creature->getThreatManager().getThreatList().size());
+#endif
         return 1;
     }
 
@@ -466,7 +482,7 @@ namespace LuaCreature
     {
         int32 state = Eluna::CHECKVAL<int32>(L, 2);
 
-#ifdef MANGOS
+#ifndef TRINITY
         creature->SetDeathState((DeathState)state);
 #else
         creature->setDeathState((DeathState)state);
@@ -486,7 +502,7 @@ namespace LuaCreature
     {
         bool allow = Eluna::CHECKVAL<bool>(L, 2);
 
-#ifdef MANGOS
+#ifndef TRINITY
         if (CreatureAI* ai = creature->AI())
             ai->SetCombatMovement(allow);
 #else
@@ -503,7 +519,7 @@ namespace LuaCreature
         return 0;
     }
 
-    int SetInCombatWithZone(lua_State* L, Creature* creature)
+    int SetInCombatWithZone(lua_State* /*L*/, Creature* creature)
     {
         creature->SetInCombatWithZone();
         return 0;
@@ -553,7 +569,7 @@ namespace LuaCreature
     {
         bool enable = Eluna::CHECKVAL<bool>(L, 2, true);
 
-#ifdef MANGOS
+#ifndef TRINITY
         creature->SetLevitate(enable);
 #else
         creature->SetHover(enable);
@@ -583,7 +599,7 @@ namespace LuaCreature
     {
         uint32 msTimeToDespawn = Eluna::CHECKVAL<uint32>(L, 2, 0);
 
-#ifdef MANGOS
+#ifndef TRINITY
         creature->ForcedDespawn(msTimeToDespawn);
 #else
         creature->DespawnOrUnsummon(msTimeToDespawn);
@@ -591,21 +607,21 @@ namespace LuaCreature
         return 0;
     }
 
-    int Respawn(lua_State* L, Creature* creature)
+    int Respawn(lua_State* /*L*/, Creature* creature)
     {
         creature->Respawn();
         return 0;
     }
 
-    int RemoveCorpse(lua_State* L, Creature* creature)
+    int RemoveCorpse(lua_State* /*L*/, Creature* creature)
     {
         creature->RemoveCorpse();
         return 0;
     }
 
-    int MoveWaypoint(lua_State* L, Creature* creature)
+    int MoveWaypoint(lua_State* /*L*/, Creature* creature)
     {
-#ifdef MANGOS
+#ifndef TRINITY
         creature->GetMotionMaster()->MoveWaypoint();
 #else
         creature->GetMotionMaster()->MovePath(creature->GetWaypointPath(), true);
@@ -613,7 +629,7 @@ namespace LuaCreature
         return 0;
     }
 
-    int CallAssistance(lua_State* L, Creature* creature)
+    int CallAssistance(lua_State* /*L*/, Creature* creature)
     {
         creature->CallAssistance();
         return 0;
@@ -627,7 +643,7 @@ namespace LuaCreature
         return 0;
     }
 
-    int FleeToGetAssistance(lua_State* L, Creature* creature)
+    int FleeToGetAssistance(lua_State* /*L*/, Creature* creature)
     {
         creature->DoFleeToGetAssistance();
         return 0;
@@ -641,7 +657,7 @@ namespace LuaCreature
         return 0;
     }
 
-    int SaveToDB(lua_State* L, Creature* creature)
+    int SaveToDB(lua_State* /*L*/, Creature* creature)
     {
         creature->SaveToDB();
         return 0;
@@ -649,7 +665,7 @@ namespace LuaCreature
 
     int SelectVictim(lua_State* L, Creature* creature)
     {
-#ifdef MANGOS
+#ifndef TRINITY
         Eluna::Push(L, creature->SelectHostileTarget());
 #else
         Eluna::Push(L, creature->SelectVictim());
@@ -662,7 +678,7 @@ namespace LuaCreature
         uint32 entry = Eluna::CHECKVAL<uint32>(L, 2);
         uint32 dataGuidLow = Eluna::CHECKVAL<uint32>(L, 3, 0);
 
-#ifdef MANGOS
+#ifndef TRINITY
         creature->UpdateEntry(entry, ALLIANCE, dataGuidLow ? eObjectMgr->GetCreatureData(dataGuidLow) : NULL);
 #else
         creature->UpdateEntry(entry, HORDE, dataGuidLow ? eObjectMgr->GetCreatureData(dataGuidLow) : NULL);

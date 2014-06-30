@@ -14,7 +14,7 @@ namespace LuaGameObject
     {
         uint32 questId = Eluna::CHECKVAL<uint32>(L, 2);
 
-#ifdef MANGOS
+#ifndef TRINITY
         Eluna::Push(L, go->HasQuest(questId));
 #else
         Eluna::Push(L, go->hasQuest(questId));
@@ -97,7 +97,7 @@ namespace LuaGameObject
     }
 
     /* OTHER */
-    int SaveToDB(lua_State* L, GameObject* go)
+    int SaveToDB(lua_State* /*L*/, GameObject* go)
     {
         go->SaveToDB();
         return 0;
@@ -119,7 +119,7 @@ namespace LuaGameObject
         uint32 repeats = Eluna::CHECKVAL<uint32>(L, 4);
 
         lua_pushvalue(L, 2);
-        int functionRef = lua_ref(L, true);
+        int functionRef = luaL_ref(L, LUA_REGISTRYINDEX);
         functionRef = sEluna->m_EventMgr->AddEvent(&go->m_Events, functionRef, delay, repeats, go);
         if (functionRef)
             Eluna::Push(L, functionRef);
@@ -133,7 +133,7 @@ namespace LuaGameObject
         return 0;
     }
 
-    int RemoveEvents(lua_State* L, GameObject* go)
+    int RemoveEvents(lua_State* /*L*/, GameObject* go)
     {
         sEluna->m_EventMgr->RemoveEvents(&go->m_Events);
         return 0;
