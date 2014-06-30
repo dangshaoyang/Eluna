@@ -97,7 +97,7 @@ namespace LuaWorldObject
         MaNGOS::UnitLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(target, checker);
         Cell::VisitWorldObjects(obj, searcher, range);
 #else
-        Trinity::UnitLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, target, checker);
+        MistCore::UnitLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, target, checker);
         obj->VisitNearbyObject(range, searcher);
 #endif
 
@@ -116,7 +116,7 @@ namespace LuaWorldObject
         MaNGOS::GameObjectLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(target, checker);
         Cell::VisitGridObjects(obj, searcher, range);
 #else
-        Trinity::GameObjectLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, target, checker);
+        MistCore::GameObjectLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, target, checker);
         obj->VisitNearbyObject(range, searcher);
 #endif
 
@@ -135,7 +135,7 @@ namespace LuaWorldObject
         MaNGOS::CreatureLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(target, checker);
         Cell::VisitGridObjects(obj, searcher, range);
 #else
-        Trinity::CreatureLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, target, checker);
+        MistCore::CreatureLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, target, checker);
         obj->VisitNearbyObject(range, searcher);
 #endif
 
@@ -153,7 +153,7 @@ namespace LuaWorldObject
         MaNGOS::PlayerListSearcher<Eluna::WorldObjectInRangeCheck> searcher(list, checker);
         Cell::VisitWorldObjects(obj, searcher, range);
 #else
-        Trinity::PlayerListSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, list, checker);
+        MistCore::PlayerListSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, list, checker);
         obj->VisitNearbyObject(range, searcher);
 #endif
 
@@ -183,7 +183,7 @@ namespace LuaWorldObject
         MaNGOS::CreatureListSearcher<Eluna::WorldObjectInRangeCheck> searcher(list, checker);
         Cell::VisitGridObjects(obj, searcher, range);
 #else
-        Trinity::CreatureListSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, list, checker);
+        MistCore::CreatureListSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, list, checker);
         obj->VisitNearbyObject(range, searcher);
 #endif
 
@@ -213,7 +213,7 @@ namespace LuaWorldObject
         MaNGOS::GameObjectListSearcher<Eluna::WorldObjectInRangeCheck> searcher(list, checker);
         Cell::VisitGridObjects(obj, searcher, range);
 #else
-        Trinity::GameObjectListSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, list, checker);
+        MistCore::GameObjectListSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, list, checker);
         obj->VisitNearbyObject(range, searcher);
 #endif
 
@@ -250,7 +250,7 @@ namespace LuaWorldObject
             MaNGOS::WorldObjectLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(target, checker);
             Cell::VisitAllObjects(obj, searcher, range);
 #else
-            Trinity::WorldObjectLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, target, checker);
+            MistCore::WorldObjectLastSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, target, checker);
             obj->VisitNearbyObject(range, searcher);
 #endif
 
@@ -264,7 +264,7 @@ namespace LuaWorldObject
             MaNGOS::WorldObjectListSearcher<Eluna::WorldObjectInRangeCheck> searcher(list, checker);
             Cell::VisitAllObjects(obj, searcher, range);
 #else
-            Trinity::WorldObjectListSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, list, checker);
+            MistCore::WorldObjectListSearcher<Eluna::WorldObjectInRangeCheck> searcher(obj, list, checker);
             obj->VisitNearbyObject(range, searcher);
 #endif
 

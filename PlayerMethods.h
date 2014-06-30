@@ -33,7 +33,7 @@ namespace LuaPlayer
 #ifdef MANGOS
         Eluna::Push(L, player->GetAchievementMgr().HasAchievement(achievementId));
 #else
-        Eluna::Push(L, player->HasAchieved(achievementId));
+        Eluna::Push(L, player->GetAchievementMgr().HasAchieved(achievementId));
 #endif
         return 1;
     }
@@ -683,7 +683,7 @@ namespace LuaPlayer
 
     int GetManaBonusFromIntellect(lua_State* L, Player* player)
     {
-        Eluna::Push(L, player->GetManaBonusFromIntellect());
+		Eluna::Push(L, 0);//dsy: in 5.0.5 the intellect is none of bussiness with mana
         return 1;
     }
 
@@ -948,7 +948,7 @@ namespace LuaPlayer
     int GetAccountName(lua_State* L, Player* player)
     {
         std::string accName;
-        if (eAccountMgr->GetName(player->GetSession()->GetAccountId(), accName))
+        if (AccountMgr::GetName(player->GetSession()->GetAccountId(), accName))
             Eluna::Push(L, accName);
         return 1;
     }
@@ -1311,7 +1311,7 @@ namespace LuaPlayer
         if (pet)
             player->SendTalentsInfoData(true);
 #else
-        player->ResetPetTalents();
+        //player->ResetPetTalents(); //dsy: need fix
         player->SendTalentsInfoData(true);
 #endif
         return 0;
@@ -1322,7 +1322,7 @@ namespace LuaPlayer
 #ifdef MANGOS
         player->GetAchievementMgr().Reset();
 #else
-        player->ResetAchievements();
+		player->GetAchievementMgr().Reset();
 #endif
         return 0;
     }
@@ -1337,7 +1337,9 @@ namespace LuaPlayer
         data << uint64(guid);
         player->GetSession()->HandleGetMailList(data);
 #else
-        player->GetSession()->SendShowMailBox(ObjectGuid(guid));
+		WorldPacket data(CMSG_GET_MAIL_LIST, 8); //dsy: dont know it will work or not
+		data << uint64(guid);
+		player->GetSession()->HandleGetMailList(data);
 #endif
         return 0;
     }
@@ -1876,7 +1878,7 @@ namespace LuaPlayer
 
     int AdvanceSkillsToMax(lua_State* L, Player* player)
     {
-        player->UpdateSkillsToMaxSkillsForLevel();
+        //player->UpdateSkillsToMaxSkillsForLevel();//dsy: 5.0.5 skills will always max when levelup
         return 0;
     }
 
@@ -1929,7 +1931,7 @@ namespace LuaPlayer
 #ifdef MANGOS
         if (player->IsTaxiFlying())
 #else
-        if (player->IsInFlight())
+        if (player->isInFlight())
 #endif
         {
             player->GetMotionMaster()->MovementExpired();

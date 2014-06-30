@@ -97,7 +97,7 @@ namespace LuaGroup
 #ifdef MANGOS
             Player* member = itr->getSource();
 #else
-            Player* member = itr->GetSource();
+            Player* member = itr->getSource();
 #endif
 
             if (!member || !member->GetSession())
