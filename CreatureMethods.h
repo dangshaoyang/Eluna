@@ -349,7 +349,7 @@ namespace LuaCreature
             return 1;
 
         std::list<Unit*> targetList;
-		for (std::list<HostileReference*>::iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
+		for (std::list<HostileReference*>::iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
         {
             Unit* target = (*itr)->getTarget();
             if (!target)
@@ -424,7 +424,7 @@ namespace LuaCreature
 #endif
         if (threatlist.empty())
             return 1;
-		for (std::list<HostileReference*>::iterator itr = threatlist.begin(); itr != threatList.end(); ++itr)
+		for (std::list<HostileReference*>::iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
         {
             Unit* target = (*itr)->getTarget();
             if (!target)
