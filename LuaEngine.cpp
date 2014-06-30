@@ -22,7 +22,7 @@ void Eluna::Initialize()
 
     scripts.clear();
 
-    std::string folderpath = eConfigMgr->GetStringDefault("Eluna.ScriptPath", "lua_scripts");
+	std::string folderpath = ConfigMgr::GetStringDefault("Eluna.ScriptPath", "lua_scripts");
 #if PLATFORM == PLATFORM_UNIX || PLATFORM == PLATFORM_APPLE
     if (folderpath[0] == '~')
         if (const char* home = getenv("HOME"))

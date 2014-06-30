@@ -26,6 +26,7 @@ extern "C"
 #include "Config/Config.h"
 #include "Player.h"
 #else
+#include "AccountMgr.h"
 #include "Config.h"
 #include "GameObjectAI.h"
 #endif
@@ -129,7 +130,7 @@ enum SelectAggroTarget
 #define eConfigMgr              (sConfigMgr)
 #define eGuildMgr               (sGuildMgr)
 #define eObjectMgr              (sObjectMgr)
-#define eAccountMgr             (sAccountMgr)
+#define eAccountMgr             (AccountMgr)
 #define eObjectAccessor         (sObjectAccessor)
 #ifndef CATA
 typedef uint64 ObjectGuid;
@@ -138,10 +139,10 @@ typedef uint64 ObjectGuid;
 #define CORE_VERSION            _DATE
 #define CORE_NAME               "TrinityCore"
 #define REGEN_TIME_FULL
-#define ELUNA_LOG_INFO(...)     TC_LOG_INFO("eluna", __VA_ARGS__);
-#define ELUNA_LOG_ERROR(...)    TC_LOG_ERROR("eluna", __VA_ARGS__);
-#define ELUNA_LOG_DEBUG(...)    TC_LOG_DEBUG("eluna", __VA_ARGS__);
-typedef ThreatContainer::StorageType ThreatList;
+#define ELUNA_LOG_INFO(...)     sLog->outInfo(LOG_FILTER_ELUNA, __VA_ARGS__);
+#define ELUNA_LOG_ERROR(...)    sLog->outError(LOG_FILTER_ELUNA, __VA_ARGS__);
+#define ELUNA_LOG_DEBUG(...)    sLog->outDebug(LOG_FILTER_ELUNA, __VA_ARGS__);
+typedef std::list<HostileReference*>& ThreatList;
 #ifdef CATA
 #define NUM_MSG_TYPES           NUM_OPCODE_HANDLERS
 #endif
@@ -488,7 +489,7 @@ public:
                 if (!unit->isAlive())
                     return false;
 #else
-                if (!unit->IsAlive())
+                if (!unit->isAlive())
                     return false;
 #endif
                 if (i_hostile)

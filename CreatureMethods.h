@@ -95,13 +95,13 @@ namespace LuaCreature
 
     int CanSwim(lua_State* L, Creature* creature)
     {
-        Eluna::Push(L, creature->CanSwim());
+        Eluna::Push(L, creature->canSwim());
         return 1;
     }
 
     int CanWalk(lua_State* L, Creature* creature)
     {
-        Eluna::Push(L, creature->CanWalk());
+        Eluna::Push(L, creature->canWalk());
         return 1;
     }
 
@@ -123,19 +123,19 @@ namespace LuaCreature
 
     int IsGuard(lua_State* L, Creature* creature)
     {
-        Eluna::Push(L, creature->IsGuard());
+        Eluna::Push(L, creature->isGuard());
         return 1;
     }
 
     int IsCivilian(lua_State* L, Creature* creature)
     {
-        Eluna::Push(L, creature->IsCivilian());
+        Eluna::Push(L, creature->isCivilian());
         return 1;
     }
 
     int IsRacialLeader(lua_State* L, Creature* creature)
     {
-        Eluna::Push(L, creature->IsRacialLeader());
+        Eluna::Push(L, creature->isRacialLeader());
         return 1;
     }
 
@@ -248,7 +248,8 @@ namespace LuaCreature
         float ThreatRadius = sWorld.getConfig(CONFIG_FLOAT_THREAT_RADIUS);
         Eluna::Push(L, ThreatRadius > AttackDist ? ThreatRadius : AttackDist);
 #else
-        Eluna::Push(L, creature->GetAggroRange(target));
+		float dist = std::max(creature->GetAttackDistance(target), sWorld->getFloatConfig(CONFIG_THREAT_RADIUS)) + creature->m_CombatDistance;
+		Eluna::Push(L, dist);
 #endif
         return 1;
     }
@@ -333,14 +334,14 @@ namespace LuaCreature
         float dist = Eluna::CHECKVAL<float>(L, 5, 0.0f);
         int32 aura = Eluna::CHECKVAL<int32>(L, 6, 0);
 
-        ThreatList const& threatlist = creature->getThreatManager().getThreatList();
-        if (threatlist.empty())
+		std::list<HostileReference*> &threatList = creature->getThreatManager().getThreatList();
+		if (threatList.empty())
             return 1;
-        if (position >= threatlist.size())
+		if (position >= threatList.size())
             return 1;
 
         std::list<Unit*> targetList;
-        for (ThreatList::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
+		for (std::list<HostileReference*>::iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
         {
             Unit* target = (*itr)->getTarget();
             if (!target)
@@ -411,7 +412,7 @@ namespace LuaCreature
         ThreatList const& threatList = creature->getThreatManager().getThreatList();
         if (threatList.empty())
             return 1;
-        for (ThreatList::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
+		for (std::list<HostileReference*>::iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
         {
             Unit* target = (*itr)->getTarget();
             if (!target)
@@ -664,7 +665,7 @@ namespace LuaCreature
 #ifdef MANGOS
         creature->UpdateEntry(entry, ALLIANCE, dataGuidLow ? eObjectMgr->GetCreatureData(dataGuidLow) : NULL);
 #else
-        creature->UpdateEntry(entry, dataGuidLow ? eObjectMgr->GetCreatureData(dataGuidLow) : NULL);
+		creature->UpdateEntry(entry, HORDE, dataGuidLow ? eObjectMgr->GetCreatureData(dataGuidLow) : NULL);
 #endif
         return 0;
     }

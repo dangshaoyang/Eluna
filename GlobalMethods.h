@@ -126,7 +126,7 @@ namespace LuaGlobalFunctions
 #ifdef MANGOS
             Player* player = itr->getSource();
 #else
-            Player* player = itr->GetSource();
+            Player* player = itr->getSource();
 #endif
             if (!player)
                 continue;
@@ -770,7 +770,7 @@ namespace LuaGlobalFunctions
             if (save)
             {
                 Creature* creature = new Creature();
-                if (!creature->Create(eObjectMgr->GenerateLowGuid(HIGHGUID_UNIT), map, phase, entry, x, y, z, o))
+                if (!creature->Create(eObjectMgr->GenerateLowGuid(HIGHGUID_UNIT), map, phase, entry, 0, HORDE, x, y, z, o))
                 {
                     delete creature;
                     Eluna::Push(L);
@@ -957,9 +957,14 @@ namespace LuaGlobalFunctions
         switch (banMode)
         {
         case BAN_ACCOUNT:
-            if (!AccountMgr::normalizeString(nameOrIP))
-                return 0;
-            break;
+#ifdef CATA
+			if (!Utf8ToUpperOnlyLatin(nameOrIP))
+				return 0;
+#else
+			if (!AccountMgr::normalizeString(nameOrIP))
+				return 0;
+#endif
+			break;
         case BAN_CHARACTER:
             if (!normalizePlayerName(nameOrIP))
                 return 0;
@@ -972,7 +977,7 @@ namespace LuaGlobalFunctions
             return 0;
         }
 
-        switch (eWorld->BanAccount((BanMode)banMode, nameOrIP, duration, reason, whoBanned->GetSession() ? whoBanned->GetName() : ""))
+		switch (eWorld->BanAccount((BanMode)banMode, nameOrIP, secsToTimeString((uint64)duration), reason, whoBanned->GetSession() ? whoBanned->GetName() : ""))
         {
         case BAN_SUCCESS:
             if (duration > 0)

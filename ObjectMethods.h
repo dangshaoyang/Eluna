@@ -65,7 +65,7 @@ namespace LuaObject
 
     int GetScale(lua_State* L, Object* obj)
     {
-        Eluna::Push(L, obj->GetObjectScale());
+		Eluna::Push(L, obj->GetFloatValue(OBJECT_FIELD_SCALE_X));
         return 1;
     }
 

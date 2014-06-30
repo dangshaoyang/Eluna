@@ -1480,9 +1480,9 @@ struct ElunaCreatureAI : ScriptedAI
     }
 
     // Called when the creature is target of hostile action: swing, hostile spell landed, fear/etc)
-    void AttackedBy(Unit* attacker) override
+    void AttackedBy(Unit* attacker) /*override*/
     {
-        ScriptedAI::AttackedBy(attacker);
+        //ScriptedAI::AttackedBy(attacker); //dsy: need fix
         ENTRY_BEGIN(CreatureEventBindings, me->GetEntry(), CREATURE_EVENT_ON_ATTACKED_AT, return);
         Eluna::Push(L, me);
         Eluna::Push(L, attacker);
@@ -1612,9 +1612,9 @@ struct ElunaCreatureAI : ScriptedAI
     }
 
     // Called when owner takes damage
-    void OwnerAttackedBy(Unit* attacker) override
+    void OwnerAttackedBy(Unit* attacker) /*override*/
     {
-        ScriptedAI::OwnerAttackedBy(attacker);
+        //ScriptedAI::OwnerAttackedBy(attacker); //dsy: need fix
         ENTRY_BEGIN(CreatureEventBindings, me->GetEntry(), CREATURE_EVENT_ON_OWNER_ATTACKED_AT, return);
         Eluna::Push(L, me);
         Eluna::Push(L, attacker);

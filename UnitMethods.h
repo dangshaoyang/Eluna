@@ -89,7 +89,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isAuctioner());
 #else
-        Eluna::Push(L, unit->IsAuctioner());
+        Eluna::Push(L, unit->isAuctioner());
 #endif
         return 1;
     }
@@ -99,7 +99,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isGuildMaster());
 #else
-        Eluna::Push(L, unit->IsGuildMaster());
+        Eluna::Push(L, unit->isGuildMaster());
 #endif
         return 1;
     }
@@ -109,7 +109,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isInnkeeper());
 #else
-        Eluna::Push(L, unit->IsInnkeeper());
+        Eluna::Push(L, unit->isInnkeeper());
 #endif
         return 1;
     }
@@ -119,7 +119,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isTrainer());
 #else
-        Eluna::Push(L, unit->IsTrainer());
+        Eluna::Push(L, unit->isTrainer());
 #endif
         return 1;
     }
@@ -129,7 +129,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isGossip());
 #else
-        Eluna::Push(L, unit->IsGossip());
+        Eluna::Push(L, unit->isGossip());
 #endif
         return 1;
     }
@@ -139,7 +139,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isTaxi());
 #else
-        Eluna::Push(L, unit->IsTaxi());
+        Eluna::Push(L, unit->isTaxi());
 #endif
         return 1;
     }
@@ -149,7 +149,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isSpiritHealer());
 #else
-        Eluna::Push(L, unit->IsSpiritHealer());
+        Eluna::Push(L, unit->isSpiritHealer());
 #endif
         return 1;
     }
@@ -159,7 +159,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isSpiritGuide());
 #else
-        Eluna::Push(L, unit->IsSpiritGuide());
+        Eluna::Push(L, unit->isSpiritGuide());
 #endif
         return 1;
     }
@@ -169,7 +169,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isTabardDesigner());
 #else
-        Eluna::Push(L, unit->IsTabardDesigner());
+        Eluna::Push(L, unit->isTabardDesigner());
 #endif
         return 1;
     }
@@ -179,7 +179,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isServiceProvider());
 #else
-        Eluna::Push(L, unit->IsServiceProvider());
+        Eluna::Push(L, unit->isServiceProvider());
 #endif
         return 1;
     }
@@ -189,7 +189,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isSpiritService());
 #else
-        Eluna::Push(L, unit->IsSpiritService());
+        Eluna::Push(L, unit->isSpiritService());
 #endif
         return 1;
     }
@@ -199,7 +199,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isAlive());
 #else
-        Eluna::Push(L, unit->IsAlive());
+        Eluna::Push(L, unit->isAlive());
 #endif
         return 1;
     }
@@ -221,7 +221,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isBanker());
 #else
-        Eluna::Push(L, unit->IsBanker());
+        Eluna::Push(L, unit->isBanker());
 #endif
         return 1;
     }
@@ -231,7 +231,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isVendor());
 #else
-        Eluna::Push(L, unit->IsVendor());
+        Eluna::Push(L, unit->isVendor());
 #endif
         return 1;
     }
@@ -241,7 +241,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isBattleMaster());
 #else
-        Eluna::Push(L, unit->IsBattleMaster());
+        Eluna::Push(L, unit->isBattleMaster());
 #endif
         return 1;
     }
@@ -251,7 +251,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isCharmed());
 #else
-        Eluna::Push(L, unit->IsCharmed());
+        Eluna::Push(L, unit->isCharmed());
 #endif
         return 1;
     }
@@ -261,7 +261,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isArmorer());
 #else
-        Eluna::Push(L, unit->IsArmorer());
+        Eluna::Push(L, unit->isArmorer());
 #endif
         return 1;
     }
@@ -301,7 +301,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isInCombat());
 #else
-        Eluna::Push(L, unit->IsInCombat());
+        Eluna::Push(L, unit->isInCombat());
 #endif
         return 1;
     }
@@ -329,7 +329,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->isQuestGiver());
 #else
-        Eluna::Push(L, unit->IsQuestGiver());
+        Eluna::Push(L, unit->isQuestGiver());
 #endif
         return 1;
     }
@@ -525,7 +525,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->getVictim());
 #else
-        Eluna::Push(L, unit->GetVictim());
+        Eluna::Push(L, unit->getVictim());
 #endif
         return 1;
     }
@@ -740,6 +740,9 @@ namespace LuaUnit
         case 9:
             str = "Warlock";
             break;
+        case 10:
+            str = "Monk";
+            break;
         case 11:
             str = "Druid";
             break;
@@ -764,7 +767,7 @@ namespace LuaUnit
 #ifdef MANGOS
         Eluna::Push(L, unit->GetAura(spellID, EFFECT_INDEX_0));
 #else
-        Eluna::Push(L, unit->GetAura(spellID));
+        //Eluna::Push(L, unit->GetAura(spellID)); //dsy: need fix
 #endif
         return 1;
     }
@@ -785,8 +788,8 @@ namespace LuaUnit
         MaNGOS::UnitListSearcher<MaNGOS::AnyFriendlyUnitInObjectRangeCheck> searcher(list, checker);
         Cell::VisitGridObjects(unit, searcher, range);
 #else
-        Trinity::AnyFriendlyUnitInObjectRangeCheck checker(unit, unit, range);
-        Trinity::UnitListSearcher<Trinity::AnyFriendlyUnitInObjectRangeCheck> searcher(unit, list, checker);
+        MistCore::AnyFriendlyUnitInObjectRangeCheck checker(unit, unit, range);
+        MistCore::UnitListSearcher<MistCore::AnyFriendlyUnitInObjectRangeCheck> searcher(unit, list, checker);
         unit->VisitNearbyObject(range, searcher);
 #endif
         Eluna::ObjectGUIDCheck guidCheck(unit->GET_GUID());
@@ -817,8 +820,8 @@ namespace LuaUnit
         MaNGOS::UnitListSearcher<MaNGOS::AnyUnfriendlyUnitInObjectRangeCheck> searcher(list, checker);
         Cell::VisitGridObjects(unit, searcher, range);
 #else
-        Trinity::AnyUnfriendlyUnitInObjectRangeCheck checker(unit, unit, range);
-        Trinity::UnitListSearcher<Trinity::AnyUnfriendlyUnitInObjectRangeCheck> searcher(unit, list, checker);
+        MistCore::AnyUnfriendlyUnitInObjectRangeCheck checker(unit, unit, range);
+        MistCore::UnitListSearcher<MistCore::AnyUnfriendlyUnitInObjectRangeCheck> searcher(unit, list, checker);
         unit->VisitNearbyObject(range, searcher);
 #endif
         Eluna::ObjectGUIDCheck guidCheck(unit->GET_GUID());
@@ -1083,7 +1086,10 @@ namespace LuaUnit
 #ifdef MANGOS
         unit->SetWaterWalk(enable);
 #else
-        unit->SetWaterWalking(enable);
+        if(enable)
+            unit->SendMovementWaterWalking();
+        else
+            unit->RemoveUnitMovementFlag(MOVEMENTFLAG_WATERWALKING);
 #endif
         return 0;
     }
@@ -1260,7 +1266,7 @@ namespace LuaUnit
 
         WorldPacket data;
 #ifdef TRINITY
-        ChatHandler::BuildChatPacket(data, ChatMsg(type), Language(lang), unit, target, msg);
+        ChatHandler::FillMessageData(&data, target->GetSession(), ChatMsg(type), Language(lang), NULL, target->GetGUID(), msg.c_str(), unit, NULL);
 #else
         ChatHandler::BuildChatPacket(data, ChatMsg(type), msg.c_str(), Language(lang), 0, unit->GET_GUID(), unit->GetName(), target->GET_GUID(), target->GetName());
 #endif
@@ -1359,7 +1365,7 @@ namespace LuaUnit
         float y = Eluna::CHECKVAL<float>(L, 4);
         float z = Eluna::CHECKVAL<float>(L, 5);
         bool genPath = Eluna::CHECKVAL<bool>(L, 6, true);
-        unit->GetMotionMaster()->MovePoint(id, x, y, z, genPath);
+        unit->GetMotionMaster()->MovePoint(id, x, y, z/*, genPath*/);
         return 0;
     }
 
@@ -1383,7 +1389,7 @@ namespace LuaUnit
         Player* receiver = Eluna::CHECKOBJ<Player>(L, 3);
         bool bossWhisper = Eluna::CHECKVAL<bool>(L, 4, false);
         if (std::string(msg).length() > 0)
-            unit->MonsterWhisper(msg, receiver, bossWhisper);
+            unit->MonsterWhisper(msg, receiver->GetGUID(), bossWhisper);
         return 0;
     }
 
@@ -1393,7 +1399,7 @@ namespace LuaUnit
         Unit* receiver = Eluna::CHECKOBJ<Unit>(L, 3, false);
         bool bossEmote = Eluna::CHECKVAL<bool>(L, 4, false);
         if (std::string(msg).length() > 0)
-            unit->MonsterTextEmote(msg, receiver, bossEmote);
+            unit->MonsterTextEmote(msg, receiver->GetGUID(), bossEmote);
         return 0;
     }
 
@@ -1402,7 +1408,7 @@ namespace LuaUnit
         const char* msg = Eluna::CHECKVAL<const char*>(L, 2);
         uint32 language = Eluna::CHECKVAL<uint32>(L, 3);
         if (std::string(msg).length() > 0)
-            unit->MonsterSay(msg, language, unit);
+            unit->MonsterSay(msg, language, unit->GetGUID());
         return 0;
     }
 
@@ -1411,7 +1417,7 @@ namespace LuaUnit
         const char* msg = Eluna::CHECKVAL<const char*>(L, 2);
         uint32 language = Eluna::CHECKVAL<uint32>(L, 3);
         if (std::string(msg).length() > 0)
-            unit->MonsterYell(msg, language, unit);
+            unit->MonsterYell(msg, language, unit->GetGUID());
         return 0;
     }
 
@@ -1510,7 +1516,7 @@ namespace LuaUnit
         }
         Eluna::Push(L, target->AddSpellAuraHolder(holder));
 #else
-        Eluna::Push(L, unit->AddAura(spellId, target));
+        //Eluna::Push(L, unit->AddAura(spellId, target)); //dsy: need fix
 #endif
         return 1;
     }
