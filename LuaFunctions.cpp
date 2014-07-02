@@ -510,8 +510,9 @@ ElunaRegister<Player> PlayerMethods[] =
 #ifndef TRINITY
     { "SetFFA", &LuaPlayer::SetFFA },                             // :SetFFA([apply]) - Sets the units FFA tag on or off
 #endif
+	{ "ModifyStat", &LuaPlayer::ModifyStat },                             // :ModifyStat(UnitMods unitMod, float addValue, bool apply) - Modify the stat value of the player
 
-    // Boolean
+	// Boolean
     { "IsInGroup", &LuaPlayer::IsInGroup },                                               // :IsInGroup()
     { "IsInGuild", &LuaPlayer::IsInGuild },                                               // :IsInGuild()
     { "IsGM", &LuaPlayer::IsGM },                                                         // :IsGM()

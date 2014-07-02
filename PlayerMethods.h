@@ -1288,8 +1288,16 @@ namespace LuaPlayer
         return 0;
     }
 #endif
+	int ModifyStat(lua_State* L, Player* player)
+	{
+		uint32 unitMod = Eluna::CHECKVAL<uint32>(L, 2);
+		float addValue = Eluna::CHECKVAL<float>(L, 3);
+		bool apply = Eluna::CHECKVAL<bool>(L, 4, true);
+		player->ModifyStat((UnitMods)unitMod, addValue, apply);
+		return 0;
+	}
 
-    /*int SetMovement(lua_State* L, Player* player)
+	/*int SetMovement(lua_State* L, Player* player)
     {
     int32 pType = Eluna::CHECKVAL<int32>(L, 2);
 
